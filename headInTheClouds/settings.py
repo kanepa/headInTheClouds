@@ -29,6 +29,8 @@ DEBUG = os.getenv('DJANGO_DEBUG')
 ALLOWED_HOSTS = ['headintheclouds.herokuapp.com']
 
 
+SITE_ID = 1
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-    'dj_database_url'
+    'dj_database_url',
     'storages',
 ]
 
