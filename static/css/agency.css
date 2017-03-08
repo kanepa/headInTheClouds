@@ -15,7 +15,7 @@ p {
   line-height: 1.75;
 }
 p.large {
-  font-size: 16px;
+  font-size: 25px;
 }
 a,
 a:hover,
@@ -223,9 +223,7 @@ fieldset[disabled] .btn-xl.active {
   }
 }
 header {
-  /*background-image: url("/static/images/Bedtime.jpg");*/
 
-    background-image: url("/static/images/Bedtime.jpg");
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -271,7 +269,7 @@ header .intro-text .intro-heading {
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     font-weight: 700;
-    font-size: 75px;
+    font-size: 100px;
     line-height: 75px;
     margin-bottom: 50px;
   }
