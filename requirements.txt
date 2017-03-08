@@ -8,5 +8,3 @@ packaging==16.8
 procfile==0.1.0
 pyparsing==2.2.0
 six==1.10.0
-MySQL-python==1.2.5
-
