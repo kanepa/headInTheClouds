@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 import dj_database_url
+from boto.s3.connection import S3Connection
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9_aez25=)vn0x)j0w$gy)(=)!9)vi-irn3a*%t-i#bc37g1eyr'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['headintheclouds.herokuapp.com']
 
 
 # Application definition
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'dj_database_url'
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +124,35 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "static"),
+# )
+
+AWS_HEADERS = {
+    'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+    'Cache-Control': 'max-age=94608000',
+}
+
+
+
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME','')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', '')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+
+
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, STATICFILES_LOCATION),)
+STATIC_ROOT = ''
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIAFILES_LOCATION = 'media'
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+
+CORS_ORIGIN_ALLOW_ALL = True
